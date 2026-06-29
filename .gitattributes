@@ -1,0 +1,7 @@
+# Normalise line endings; keep shell scripts LF so they run on Linux
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pcap binary
+*.pcapng binary
+*.docx binary
