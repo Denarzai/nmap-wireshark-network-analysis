@@ -1,10 +1,10 @@
 # Network Scanning & Traffic Analysis — Nmap + Wireshark
 
-A hands-on reconnaissance lab against an intentionally vulnerable target
-(Metasploitable2) from a Kali Linux attacker machine. The work maps the target's
-attack surface with Nmap, captures and analyses the resulting traffic in
-Wireshark, confirms an exploitable vulnerability, and documents how the same
-activity looks from a defender's point of view.
+A hands-on network security project targeting an intentionally vulnerable
+machine (Metasploitable2) from a Kali Linux attacker machine. The project maps
+the target's attack surface with Nmap, captures and analyses the resulting
+traffic in Wireshark, confirms an exploitable vulnerability, and documents how
+the same activity looks from a defender's point of view.
 
 **Tools:** Nmap 7.95 · Wireshark · Kali Linux · Metasploitable2 · VMware
 **Domains:** offensive recon / enumeration · defensive traffic analysis · network security
@@ -14,12 +14,12 @@ activity looks from a defender's point of view.
 ## Contents
 
 - [Overview](#overview)
-- [Lab environment](#lab-environment)
+- [Test Environment](#test-environment)
 - [Methodology](#methodology)
 - [Key findings](#key-findings)
 - [Traffic analysis (Wireshark)](#traffic-analysis-wireshark)
 - [Detection & defence](#detection--defence)
-- [Reproducing the lab](#reproducing-the-lab)
+- [Reproducing the Results](#reproducing-the-results)
 - [Repository layout](#repository-layout)
 - [References](#references)
 - [Authors & contribution](#authors--contribution)
@@ -29,7 +29,7 @@ activity looks from a defender's point of view.
 
 ## Overview
 
-The goal of this lab was to practise the reconnaissance phase of a security
+The goal of this project was to practise the reconnaissance phase of a security
 assessment end to end: discover a live host, enumerate its open ports and the
 software behind them, fingerprint the operating system, run scripted
 vulnerability checks, and — crucially — watch the network-level footprint each
@@ -41,7 +41,7 @@ be tied to a concrete, observable traffic pattern. That pairing is the core idea
 of the project: an attacker's scan and a defender's alert are two views of the
 same packets.
 
-## Lab environment
+## Test Environment
 
 Two virtual machines on an isolated NAT network inside VMware.
 
@@ -65,7 +65,7 @@ installation and adapter/IP configuration screenshots are in
 ## Methodology
 
 Each scan below maps to a phase of reconnaissance. Commands are the exact ones
-run in the lab; full output is captured in the linked screenshots and a command
+run during this project; full output is captured in the linked screenshots and a command
 reference lives in [`docs/nmap-commands.md`](docs/nmap-commands.md).
 
 ### 1. Host discovery
@@ -103,7 +103,7 @@ nmap --script vuln 192.168.159.131       # known-vulnerability checks
 nmap --script discovery 192.168.159.131  # SMB shares, DNS, host metadata
 ```
 Banners exposed software versions outright; the `vuln` category produced the
-strongest result of the lab (below). →
+strongest result of the project (below). →
 [`05-nse-banner.png`](screenshots/02-nmap/05-nse-banner.png) ·
 [`06-nse-vuln.png`](screenshots/02-nmap/06-nse-vuln.png) ·
 [`07-nse-discovery.png`](screenshots/02-nmap/07-nse-discovery.png)
@@ -164,7 +164,7 @@ serious CVEs based on the versions reported — e.g. the Samba `usermap_script`
 RCE (CVE-2007-2447) on 139/445, the UnrealIRCd backdoor (CVE-2010-2075) on 6667,
 and the legacy r-services (rexec/rlogin/rsh) on 512–514 that transmit
 credentials in clear text. These are listed as exposure, not as exploits run in
-this lab.
+this project.
 
 ## Traffic analysis (Wireshark)
 
@@ -209,14 +209,14 @@ From the defender's side, the captured patterns map directly to mitigations:
 - Monitor and retain packet captures / flow logs so reconnaissance is visible
   before it becomes exploitation.
 
-## Reproducing the lab
+## Reproducing the Results
 
 Because raw scan output and captures are environment-specific, this repo ships a
 script that regenerates them rather than committing stale files. Run it from the
 Kali attacker VM against your own Metasploitable2 target:
 
 ```bash
-# from the Kali attacker machine, inside the isolated lab network
+# from the Kali attacker machine, inside the isolated test network
 sudo ./scripts/recon.sh 192.168.159.131
 ```
 
@@ -253,7 +253,7 @@ python3 scripts/setup_screenshots.py
 │   ├── 02-nmap/               # each scan's output
 │   └── 03-wireshark/          # captured traffic per filter
 └── report/
-    └── (original lab report, .docx)
+    └── (original project report, .docx)
 ```
 
 ## References
@@ -268,7 +268,7 @@ python3 scripts/setup_screenshots.py
 
 ## Authors & contribution
 
-This was a collaborative two-person lab for course CY2004 at FAST-NUCES Islamabad.
+This was a collaborative two-person project for course CY2004 at FAST-NUCES Islamabad.
 
 - **Muhammad Subhan** (i242082)
 - **Fatima Manzoor** (i242091)
@@ -282,7 +282,8 @@ decided together throughout.
 
 ## Disclaimer
 
-All scanning and exploitation was performed in a private, isolated lab against a
-virtual machine (Metasploitable2) built for this purpose. Running these tools or
+All scanning and exploitation was performed in a private, isolated test
+environment against a virtual machine (Metasploitable2) built for this purpose.
+Running these tools or
 techniques against systems you do not own or have explicit written permission to
 test is illegal. Use only in environments you control.
